@@ -14,6 +14,8 @@ namespace CastleGrimtol.Project
     public void GetUserInput()
     {
       string input = Console.ReadLine();
+      Console.WriteLine(input[1]);
+      Console.ForegroundColor = ConsoleColor.White;
       input = input.ToUpper();
       if (input == "HELP")
       {
@@ -23,18 +25,18 @@ namespace CastleGrimtol.Project
       {
         Quit();
       }
-      if (input == "GO")
-      {
-        Go();
-      }
-      if (input == "TAKE")
-      {
-        TakeItem();
-      }
-      if (input == "USE")
-      {
-        UseItem();
-      }
+      // if (input == "GO")
+      // {
+      //   Go();
+      // }
+      // if (input == "TAKE")
+      // {
+      //   TakeItem();
+      // }
+      // if (input == "USE")
+      // {
+      //   UseItem();
+      // }
       if (input == "LOOK")
       {
         Look();
@@ -47,12 +49,14 @@ namespace CastleGrimtol.Project
 
     public void Go(string direction)
     {
-      throw new System.NotImplementedException();
+      // Room room = new Room();
+      // ChangeRoom();
     }
 
     public void Help()
     {
-      Console.ForegroundColor = ConsoleColor.DarkGreen;
+      Console.Clear();
+      Console.ForegroundColor = ConsoleColor.Green;
       Console.WriteLine("Smart Choice friend.. Lets take a look");
       Console.WriteLine(@"
       -Go <Direction> Moves the player from room to room
@@ -64,8 +68,7 @@ namespace CastleGrimtol.Project
       -Quit Quits the Game
       ");
       Console.WriteLine("Press anything to exit help menu!");
-      Console.ReadLine();
-      Setup();
+      GetUserInput();
       return;
     }
 
@@ -91,42 +94,43 @@ namespace CastleGrimtol.Project
 
     public void Setup()
     {
-      Console.BackgroundColor = ConsoleColor.Black;
-      Console.ForegroundColor = ConsoleColor.White;
+      // Console.BackgroundColor = ConsoleColor.Black;
+      // Console.ForegroundColor = ConsoleColor.White;
       Console.Clear();
       //used dungeon room description generator for this dungeon description www.padnd.com!!!!
-      Room dungeon = new Room("dungeon", "A crack in the ceiling above the middle of the north wall allows a trickle of water to flow down to the floor. The water pools near the base of the wall, and a rivulet runs along the wall an out into the hall. The water smells fresh.");
-      Room dungeondoor = new Room("door", "Hmm.. locked and heavy, theres no way youre breaking through it.");
-      Room dtoghallway = new Room("hallway", "");
-      Room guardroom = new Room();
-      Room gtoi1hallway = new Room();
-      Room intersection1 = new Room();
-      Room hole1 = new Room();
-      Room castlecourtyard = new Room();
-      Room castlecourtyarddoor = new Room();
-      Room intersection2 = new Room();
-      Room hole2 = new Room();
-      Room throneroom = new Room();
-      Item key = new Item();
-      dungeon.Exits.Add("south", dungeondoor);
-      dungeondoor.Exits.Add("north", dungeon);
-      dungeondoor.Exits.Add("south", dtoghallway);
-      dtoghallway.Exits.Add("north", dungeon);
-      dtoghallway.Exits.Add("south", guardroom);
-      guardroom.Exits.Add("north", dtoghallway);
-      guardroom.Exits.Add("west", gtoi1hallway);
-      gtoi1hallway.Exits.Add("east", guardroom);
-      gtoi1hallway.Exits.Add("west", intersection1);
-      intersection1.Exits.Add("west", hole1);
-      intersection1.Exits.Add("east", gtoi1hallway);
-      intersection1.Exits.Add("north", castlecourtyard);
-      castlecourtyard.Exits.Add("south", intersection1);
-      castlecourtyard.Exits.Add("west", castlecourtyarddoor);
-      castlecourtyarddoor.Exits.Add("east", castlecourtyard);
-      castlecourtyard.Exits.Add("north", intersection2);
-      intersection2.Exits.Add("south", castlecourtyard);
-      intersection2.Exits.Add("east", hole2);
-      intersection2.Exits.Add("north", throneroom);
+      Room dungeon = new Room("dungeon", @"
+A crack in the ceiling allows a trickle of water to flow down to the floor. The water pools near the base of the wall.. 
+Suddenly you hear a massive crash in front of you. Your vision is hazy as a the room floods with light.
+Its a boy! You use all your strength to crawl to him.. He's dead, Confused with what is happening you notice something in the kids hand. Its a key.
+Exhausted you collapse and see a stream of water running south along the wall and past a locked door into the hall.");
+      // Room dungeondoor = new Room("door", "Hmm.. locked and heavy, theres no way youre breaking through it.");
+      Room easthallway = new Room("easthallway", "");
+      Room guardroom = new Room("guardroom", "");
+      Room southallway = new Room("southhallway", "");
+      Room southcorridor = new Room("soutcorridor", "");
+      Room westpit = new Room("westpit", "");
+      Room castlecourtyard = new Room("courtyard", "");
+      Room northcorridor = new Room("northcorridor", "");
+      Room eastpit = new Room("eastpit", "");
+      Room throneroom = new Room("throneroom", "");
+      Item key = new Item("dungeon key", "");
+
+      //exit doesnt exist until player unlocks door with key from body
+      // dungeon.Exits.Add("south", easthallway);
+      easthallway.Exits.Add("north", dungeon);
+      easthallway.Exits.Add("south", guardroom);
+      guardroom.Exits.Add("north", easthallway);
+      guardroom.Exits.Add("west", southallway);
+      southallway.Exits.Add("east", guardroom);
+      southallway.Exits.Add("west", southcorridor);
+      southcorridor.Exits.Add("west", westpit);
+      southcorridor.Exits.Add("east", southallway);
+      southcorridor.Exits.Add("north", castlecourtyard);
+      castlecourtyard.Exits.Add("south", southcorridor);
+      castlecourtyard.Exits.Add("north", northcorridor);
+      northcorridor.Exits.Add("south", castlecourtyard);
+      northcorridor.Exits.Add("east", eastpit);
+      northcorridor.Exits.Add("north", throneroom);
       dungeon.Items.Add(key);
       CurrentRoom = dungeon;
     }
@@ -135,13 +139,13 @@ namespace CastleGrimtol.Project
     {
       playing = true;
       Setup();
-      Console.ForegroundColor = ConsoleColor.DarkRed;
-      Console.WriteLine("Waking with excruciating pain... Darkness, nothing but darkness.");
+      // Console.ForegroundColor = ConsoleColor.Red;
+      Console.WriteLine("Waking with excruciating pain... Darkness, You can't see anything.");
       Thread.Sleep(3000);
       Console.WriteLine("");
-      Console.ForegroundColor = ConsoleColor.White;
+      // Console.ForegroundColor = ConsoleColor.White;
       // Console.ResetColor();
-      Console.Write("Type Help to get a quick rundown on commands: ");
+      Console.Write("Type HELP for a quick rundown or type command: ");
       string startgameinput = Console.ReadLine();
       if (startgameinput.ToUpper() == "HELP")
       {
@@ -149,7 +153,8 @@ namespace CastleGrimtol.Project
       }
       while (playing)
       {
-        Console.WriteLine("Whats next?");
+        Console.Clear();
+        Console.WriteLine($"{CurrentRoom.Name}: {CurrentRoom.Description}");
         GetUserInput();
       }
 
