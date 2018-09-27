@@ -21,6 +21,16 @@ namespace CastleGrimtol.Project
       return this;
     }
 
+    public Item checkforitem(string itemName)
+    {
+      Item myitem = Items.Find(item => item.Name == itemName);
+      if (myitem != null)
+      {
+        Items.Remove(myitem);
+      }
+      return myitem;
+    }
+
     // public List<Item> ReturnItem()
     // {
     //   return List<Item>;

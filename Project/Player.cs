@@ -7,9 +7,14 @@ namespace CastleGrimtol.Project
     public string PlayerName { get; set; }
     public List<Item> Inventory { get; set; }
 
-    public void takeitem(Item item)
+    public Item checkusableitem(string itemName)
     {
-      Inventory.Add(item);
+      Item inventoryitem = Inventory.Find(item => item.Name == itemName);
+      if (inventoryitem != null)
+      {
+        Inventory.Remove(inventoryitem);
+      }
+      return inventoryitem;
     }
 
     public Player(string playername)
