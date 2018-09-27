@@ -8,55 +8,88 @@ namespace CastleGrimtol.Project
   {
     public Room CurrentRoom { get; set; }
     public Player CurrentPlayer { get; set; }
-
     bool playing;
 
     public void GetUserInput()
     {
-      string input = Console.ReadLine();
-      Console.WriteLine(input[1]);
       Console.ForegroundColor = ConsoleColor.White;
-      input = input.ToUpper();
-      if (input == "HELP")
+      string input = Console.ReadLine();
+      string[] command = input.Split();
+      string useraction;
+      string usercommand;
+      if (input.Length == 0)
       {
-        Help();
+        return;
       }
-      if (input == "QUIT")
+      else if (command.Length == 1)
       {
-        Quit();
+        useraction = command[0];
+        useraction = useraction.ToUpper();
+        if (useraction == "HELP")
+        {
+          Help();
+          return;
+        }
+        if (useraction == "QUIT")
+        {
+          Quit();
+          return;
+        }
+        if (useraction == "LOOK")
+        {
+          Look();
+          return;
+        }
+        if (useraction == "INVENTORY")
+        {
+          Inventory();
+          return;
+        }
+        Console.WriteLine("Not sure about that friend, try a different command.");
       }
-      // if (input == "GO")
-      // {
-      //   Go();
-      // }
-      // if (input == "TAKE")
-      // {
-      //   TakeItem();
-      // }
-      // if (input == "USE")
-      // {
-      //   UseItem();
-      // }
-      if (input == "LOOK")
+      else if (command.Length == 2)
       {
-        Look();
+        useraction = command[0];
+        usercommand = command[1];
+        useraction = useraction.ToUpper();
+        usercommand = usercommand.ToLower();
+        if (useraction == "GO")
+        {
+          Go(usercommand);
+          return;
+        }
+        if (useraction == "TAKE")
+        {
+          TakeItem(usercommand);
+          return;
+        }
+        if (useraction == "USE")
+        {
+          UseItem(usercommand);
+          return;
+        }
+        Console.WriteLine("Not sure about that friend, try a different command.");
       }
-      if (input == "INVENTORY")
+      else
       {
-        Inventory();
+        Console.WriteLine("Not sure about that friend, try a different command.");
       }
     }
 
     public void Go(string direction)
     {
-      // Room room = new Room();
-      // ChangeRoom();
+      CurrentRoom = CurrentRoom.ChangeRoom(direction);
+      //       if (CurrentRoom != CurrentRoom.ChangeRoom(direction))
+      //       {
+      //         Console.WriteLine($@"{CurrentRoom.Name}
+      // {CurrentRoom.Description}");
+      //       }
     }
 
     public void Help()
     {
-      Console.Clear();
       Console.ForegroundColor = ConsoleColor.Green;
+      Console.WriteLine("");
       Console.WriteLine("Smart Choice friend.. Lets take a look");
       Console.WriteLine(@"
       -Go <Direction> Moves the player from room to room
@@ -67,19 +100,20 @@ namespace CastleGrimtol.Project
       -Help Shows a list of commands and actions
       -Quit Quits the Game
       ");
-      Console.WriteLine("Press anything to exit help menu!");
+      Console.WriteLine("Press ENTER to exit menu!");
       GetUserInput();
       return;
     }
 
     public void Inventory()
     {
-      throw new System.NotImplementedException();
+
     }
 
     public void Look()
     {
-      throw new System.NotImplementedException();
+      Console.WriteLine(CurrentRoom.Description);
+      GetUserInput();
     }
 
     public void Quit()
@@ -94,29 +128,26 @@ namespace CastleGrimtol.Project
 
     public void Setup()
     {
-      // Console.BackgroundColor = ConsoleColor.Black;
-      // Console.ForegroundColor = ConsoleColor.White;
       Console.Clear();
       //used dungeon room description generator for this dungeon description www.padnd.com!!!!
-      Room dungeon = new Room("dungeon", @"
+      Room dungeon = new Room("DUNGEON", @"
 A crack in the ceiling allows a trickle of water to flow down to the floor. The water pools near the base of the wall.. 
-Suddenly you hear a massive crash in front of you. Your vision is hazy as a the room floods with light.
-Its a boy! You use all your strength to crawl to him.. He's dead, Confused with what is happening you notice something in the kids hand. Its a key.
-Exhausted you collapse and see a stream of water running south along the wall and past a locked door into the hall.");
-      // Room dungeondoor = new Room("door", "Hmm.. locked and heavy, theres no way youre breaking through it.");
-      Room easthallway = new Room("easthallway", "");
-      Room guardroom = new Room("guardroom", "");
-      Room southallway = new Room("southhallway", "");
-      Room southcorridor = new Room("soutcorridor", "");
-      Room westpit = new Room("westpit", "");
-      Room castlecourtyard = new Room("courtyard", "");
-      Room northcorridor = new Room("northcorridor", "");
-      Room eastpit = new Room("eastpit", "");
-      Room throneroom = new Room("throneroom", "");
-      Item key = new Item("dungeon key", "");
+Followed by a massive crash in front of you. Your vision is hazy as a the room floods with light. Its a boy! 
+You use all your strength to crawl to him.. He's dead, Confused with what is happening you notice something in the kids hand. Its a key.
+Exhausted you collapse and see a stream of water running south along the wall past a locked door leading to a hallway.");
+      Room easthallway = new Room("EAST HALLWAY", "Youre in the easthallway now");
+      Room guardroom = new Room("GUARDROOM", "");
+      Room southallway = new Room("SOUTH HALLWAY", "");
+      Room southcorridor = new Room("SOUTH CORRIDOR", "");
+      Room westpit = new Room("WEST PIT", "");
+      Room castlecourtyard = new Room("COURTYARD", "");
+      Room northcorridor = new Room("NORTH CORRIDOR", "");
+      Room eastpit = new Room("EAST PIT", "");
+      Room throneroom = new Room("THRONEROOM", "");
+      Item key = new Item("DUNGEON KEY", "");
 
       //exit doesnt exist until player unlocks door with key from body
-      // dungeon.Exits.Add("south", easthallway);
+      dungeon.Exits.Add("south", easthallway);
       easthallway.Exits.Add("north", dungeon);
       easthallway.Exits.Add("south", guardroom);
       guardroom.Exits.Add("north", easthallway);
@@ -139,22 +170,18 @@ Exhausted you collapse and see a stream of water running south along the wall an
     {
       playing = true;
       Setup();
-      // Console.ForegroundColor = ConsoleColor.Red;
-      Console.WriteLine("Waking with excruciating pain... Darkness, You can't see anything.");
-      Thread.Sleep(3000);
+      Console.Write("Whats your Name?: ");
+      string newplayername = Console.ReadLine();
+      Player player = new Player(newplayername);
+      Console.WriteLine("Thanks for that! lets begin!");
       Console.WriteLine("");
-      // Console.ForegroundColor = ConsoleColor.White;
-      // Console.ResetColor();
       Console.Write("Type HELP for a quick rundown or type command: ");
-      string startgameinput = Console.ReadLine();
-      if (startgameinput.ToUpper() == "HELP")
-      {
-        Help();
-      }
+      GetUserInput();
       while (playing)
       {
-        Console.Clear();
-        Console.WriteLine($"{CurrentRoom.Name}: {CurrentRoom.Description}");
+        Console.WriteLine("");
+        Console.WriteLine($@"{CurrentRoom.Name}:
+{CurrentRoom.Description}");
         GetUserInput();
       }
 
@@ -162,7 +189,7 @@ Exhausted you collapse and see a stream of water running south along the wall an
 
     public void TakeItem(string itemName)
     {
-      throw new System.NotImplementedException();
+      // if (CurrentRoom.Items.
     }
 
     public void UseItem(string itemName)

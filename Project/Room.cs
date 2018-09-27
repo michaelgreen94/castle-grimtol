@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace CastleGrimtol.Project
 {
@@ -9,14 +11,15 @@ namespace CastleGrimtol.Project
     public List<Item> Items { get; set; }
     public Dictionary<string, Room> Exits { get; set; }
 
-    // public Dictionary<string, Room> ChangeRoom(string name, Room room)
-    // {
-    //   if (Exits.ContainsKey(name))
-    //   {
-    //     return;
-    //   }
-    //   return;
-    // }
+    public Room ChangeRoom(string name)
+    {
+      if (Exits.ContainsKey(name))
+      {
+        return Exits[name];
+      }
+      Console.WriteLine("I cant go that way!");
+      return this;
+    }
 
     // public List<Item> ReturnItem()
     // {
