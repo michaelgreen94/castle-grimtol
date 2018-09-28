@@ -113,7 +113,19 @@ namespace CastleGrimtol.Project
 
     public void Inventory()
     {
-      //this is the players current inventory. calling this will draw a list of items.
+      if (CurrentPlayer.Inventory.Count == 0)
+      {
+        Console.WriteLine("Your inventory is empty");
+        return;
+      }
+      foreach (Item inventoryitem in CurrentPlayer.Inventory)
+      {
+        if (inventoryitem != null)
+        {
+          Console.WriteLine(inventoryitem.Name);
+          return;
+        }
+      }
     }
 
     public void Look()
@@ -172,7 +184,7 @@ Doesnt need a description but ill give you one. Youre dead.");
       Room throneroom = new Room("THRONEROOM", @"
 As you unlock the door and swing it wide you see an enormous hall stretching out before you. At the opposite end of the hall sitting on his throne you see the dark lord.
 You Won!");
-      Item key = new Item("DUNGEON KEY", "Unlocks the Door to the Dungeon");
+      Item key = new Item("key", "Unlocks the Door to the Dungeon");
 
       //Exits for rooms the player will be in
 
@@ -197,7 +209,7 @@ You Won!");
 
       Console.Write("Whats your Name?: ");
       string newplayername = Console.ReadLine();
-      Player player = new Player(newplayername);
+      CurrentPlayer = new Player(newplayername);
       Console.WriteLine("Thanks for that! lets begin!");
       Console.WriteLine("");
     }
@@ -240,11 +252,13 @@ You Won!");
       if (lootableitem != null)
       {
         CurrentPlayer.Inventory.Add(lootableitem);
+        return;
       }
       //if the room doesnt have the item return "" saying so.
       Console.WriteLine("That item doesnt exist");
       return;
     }
+
 
     public void UseItem(string itemName)
     {
@@ -254,6 +268,7 @@ You Won!");
       {
         // removes item from users inventory
         CurrentPlayer.Inventory.Remove(usableitem);
+        return;
       }
       //if the user doesnt have the item return "" saying so.
       Console.WriteLine("You dont have that item in your inventory");
