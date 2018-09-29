@@ -8,14 +8,31 @@ namespace CastleGrimtol.Project
   {
     public string Name { get; set; }
     public string Description { get; set; }
+    public bool Locked { get; set; }
     public List<Item> Items { get; set; }
     public Dictionary<string, Room> Exits { get; set; }
 
+    // private Dictionary<string, Room> _LockedRooms { get; set; }
+
+    //     public void AddLockedRoom()
+    //     {
+    //       // dungeon.Exits.Add("south", easthallway);
+    //       Room easthallway = new Room("EAST HALLWAY", @"
+    // You find yourself in a small hall there doesnt appear to be anything of interest here.", true);
+    //       _LockedRooms.Add("south", easthallway);
+    //     }
+
     public Room ChangeRoom(string name)
     {
-      if (Exits.ContainsKey(name))
+      // Room targetroom = Exits[name];
+      if (Exits.ContainsKey(name) && this.Locked == false)
       {
         return Exits[name];
+      }
+      if (Exits.ContainsKey(name) && this.Locked == true)
+      {
+        Console.WriteLine("Its Locked");
+        return this;
       }
       Console.WriteLine("I cant go that way!");
       return this;
@@ -35,10 +52,11 @@ namespace CastleGrimtol.Project
     // {
     //   return List<Item>;
     // }
-    public Room(string name, string description)
+    public Room(string name, string description, bool locked)
     {
       Name = name;
       Description = description;
+      Locked = locked;
       Exits = new Dictionary<string, Room>();
       Items = new List<Item>();
     }

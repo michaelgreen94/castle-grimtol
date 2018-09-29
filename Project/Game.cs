@@ -164,30 +164,29 @@ namespace CastleGrimtol.Project
 A crack in the ceiling allows a trickle of water to flow down to the floor. The water pools near the base of the wall.. 
 Followed by a massive crash in front of you. Your vision is hazy as a the room floods with light. Its a boy! 
 You use all your strength to crawl to him.. He's dead, Confused with what is happening you notice something in the kids hand. Its a key.
-Exhausted you collapse and see a stream of water running south along the wall past a locked door leading to a hallway.");
+Exhausted you collapse and see a stream of water running south along the wall past a locked door leading to a hallway.", true);
       Room easthallway = new Room("EAST HALLWAY", @"
-You find yourself in a small hall there doesnt appear to be anything of interest here.");
+You find yourself in a small hall there doesnt appear to be anything of interest here.", false);
       Room guardroom = new Room("GUARDROOM", @"
-You see a room with several sleeping guards, The room smells of sweaty men. The bed closest to you is empty and there are several uniforms tossed about.");
+You see a room with several sleeping guards, The room smells of sweaty men. The bed closest to you is empty and there are several uniforms tossed about.", false);
       Room southallway = new Room("SOUTH HALLWAY", @"
-You find yourself in a small hall there doesnt appear to be anything of interest here.");
+You find yourself in a small hall there doesnt appear to be anything of interest here.", false);
       Room southcorridor = new Room("SOUTH CORRIDOR", @"
-The first real choice youve come across.. do you go North to the courtyard or west breaking through a door.");
+The first real choice youve come across.. do you go North to the courtyard or west breaking through a door.", false);
       Room westpit = new Room("WEST PIT", @"
-Doesnt need a description but ill give you one. Youre dead.");
+Doesnt need a description but ill give you one. Youre dead.", false);
       Room castlecourtyard = new Room("COURTYARD", @"
-You step into the large castle courtyard there is a flowing fountain in the middle of the grounds and a few guards patrolling the area.");
+You step into the large castle courtyard there is a flowing fountain in the middle of the grounds and a few guards patrolling the area.", false);
       Room northcorridor = new Room("NORTH CORRIDOR", @"
-Another one of these choices, this ones up to you, no hints. North or East?");
+Another one of these choices, this ones up to you, no hints. North or East?", false);
       Room eastpit = new Room("EAST PIT", @"
-Doesnt need a description but ill give you one. Youre dead.");
+Doesnt need a description but ill give you one. Youre dead.", false);
       Room throneroom = new Room("THRONEROOM", @"
 As you unlock the door and swing it wide you see an enormous hall stretching out before you. At the opposite end of the hall sitting on his throne you see the dark lord.
-You Won!");
+You Won!", false);
       Item key = new Item("key", "Unlocks the Door to the Dungeon");
 
       //Exits for rooms the player will be in
-
       dungeon.Exits.Add("south", easthallway);
       //exit for first room doesnt exist until player unlocks door with key from body
       easthallway.Exits.Add("north", dungeon);
@@ -267,11 +266,13 @@ You Won!");
       if (CurrentPlayer.Inventory.Contains(usableitem))
       {
         // removes item from users inventory
+        CurrentRoom.Locked = false;
         CurrentPlayer.Inventory.Remove(usableitem);
         return;
       }
       //if the user doesnt have the item return "" saying so.
       Console.WriteLine("You dont have that item in your inventory");
+      return;
     }
   }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace CastleGrimtol.Project
@@ -12,7 +13,7 @@ namespace CastleGrimtol.Project
       Item inventoryitem = Inventory.Find(item => item.Name == itemName);
       if (inventoryitem != null)
       {
-        Inventory.Remove(inventoryitem);
+        return inventoryitem;
       }
       return inventoryitem;
     }
