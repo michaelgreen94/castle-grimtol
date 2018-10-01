@@ -47,6 +47,7 @@ namespace CastleGrimtol.Project
           Inventory();
           return;
         }
+        System.Console.WriteLine("");
         Console.WriteLine("Not sure about that friend, try a different command.");
       }
       else if (command.Length == 2)
@@ -70,10 +71,12 @@ namespace CastleGrimtol.Project
           UseItem(usercommand);
           return;
         }
+        System.Console.WriteLine("");
         Console.WriteLine("Not sure about that friend, try a different command.");
       }
       else
       {
+        System.Console.WriteLine("");
         Console.WriteLine("Not sure about that friend, try a different command.");
       }
     }
@@ -89,7 +92,8 @@ namespace CastleGrimtol.Project
       if (CurrentRoom != CurrentRoom.ChangeRoom(direction))
       {
         CurrentRoom = CurrentRoom.ChangeRoom(direction);
-        Console.WriteLine($@"{CurrentRoom.Name}
+        System.Console.WriteLine("");
+        Console.WriteLine($@"{CurrentRoom.Name}:
 {CurrentRoom.Description}");
       }
     }
@@ -118,6 +122,7 @@ namespace CastleGrimtol.Project
     {
       if (CurrentPlayer.Inventory.Count == 0)
       {
+        System.Console.WriteLine("");
         Console.WriteLine("Your inventory is empty");
         return;
       }
@@ -125,6 +130,7 @@ namespace CastleGrimtol.Project
       {
         if (inventoryitem != null)
         {
+          System.Console.WriteLine("");
           Console.WriteLine(inventoryitem.Name);
           return;
         }
@@ -135,7 +141,7 @@ namespace CastleGrimtol.Project
     {
       //gives user current description of the room they are in
       System.Console.WriteLine("");
-      Console.WriteLine($@"{CurrentRoom.Name}
+      Console.WriteLine($@"{CurrentRoom.Name}:
 {CurrentRoom.Description}");
 
       // GetUserInput();
@@ -306,6 +312,7 @@ Strangley it looks like you. Your alarm clock wakes you, that felt too real. You
         // removes item from users inventory
         CurrentRoom.Locked = false;
         CurrentPlayer.Inventory.Remove(usableitem);
+        System.Console.WriteLine("");
         Console.WriteLine(usableitem.Description);
         // Thread.Sleep(3000);
         return;
