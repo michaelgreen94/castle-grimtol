@@ -81,14 +81,17 @@ namespace CastleGrimtol.Project
     public void Go(string direction)
     {
       //changes the user from one room to another if the exit to the other room exists
-      CurrentRoom = CurrentRoom.ChangeRoom(direction);
+      //       CurrentRoom = CurrentRoom.ChangeRoom(direction);
+      //       Console.WriteLine($@"{CurrentRoom.Name}
+      // {CurrentRoom.Description}");
       //returns "" if exit doesnt exist
 
-      //       if (CurrentRoom != CurrentRoom.ChangeRoom(direction))
-      //       {
-      //         Console.WriteLine($@"{CurrentRoom.Name}
-      // {CurrentRoom.Description}");
-      //       }
+      if (CurrentRoom != CurrentRoom.ChangeRoom(direction))
+      {
+        CurrentRoom = CurrentRoom.ChangeRoom(direction);
+        Console.WriteLine($@"{CurrentRoom.Name}
+{CurrentRoom.Description}");
+      }
     }
 
     public void Help()
@@ -131,8 +134,10 @@ namespace CastleGrimtol.Project
     public void Look()
     {
       //gives user current description of the room they are in
-      Console.WriteLine(CurrentRoom.Description);
-      GetUserInput();
+      Console.WriteLine($@"{CurrentRoom.Name}
+{CurrentRoom.Description}");
+
+      // GetUserInput();
     }
 
     public void Quit()
@@ -229,12 +234,13 @@ Strangley it looks like you. Your alarm clock wakes you, that felt too real. You
       Setup();
       Console.Write("Type HELP for a quick rundown or type command: ");
       GetUserInput();
+      Look();
       while (playing)
       {
         if (CurrentRoom.Name == "THRONEROOM")
         {
-          System.Console.WriteLine(CurrentRoom.Description);
-          Thread.Sleep(3000);
+          // System.Console.WriteLine(CurrentRoom.Description);
+          // Thread.Sleep(3000);
           playing = false;
           Reset();
           return;
@@ -242,16 +248,15 @@ Strangley it looks like you. Your alarm clock wakes you, that felt too real. You
         if (CurrentRoom.Name == "WEST PIT" || CurrentRoom.Name == "EAST PIT")
         {
           playing = false;
-          System.Console.WriteLine(CurrentRoom.Description);
-          Thread.Sleep(3000);
+          // System.Console.WriteLine(CurrentRoom.Description);
+          // Thread.Sleep(3000);
           Console.WriteLine("You Died!");
           Reset();
           return;
         }
         Console.WriteLine("");
-        Console.WriteLine($@"{CurrentRoom.Name}:
-{CurrentRoom.Description}");
-        System.Console.WriteLine("");
+        // Console.WriteLine($"{CurrentRoom.Name}");
+        System.Console.Write("What would you like to do?: ");
         GetUserInput();
       }
 
@@ -279,7 +284,12 @@ Strangley it looks like you. Your alarm clock wakes you, that felt too real. You
     {
       var usableitem = CurrentPlayer.checkusableitem(itemName);
       //if the user has itemName in its inventory user can (use "itemName")
-      if (CurrentPlayer.Inventory.Contains(usableitem) && CurrentRoom.Name.ToUpper() == "SOUTH CORRIDOR")
+      if (usableitem == null)
+      {
+        Console.WriteLine("You dont have that item in your inventory");
+        return;
+      }
+      else if (CurrentPlayer.Inventory.Contains(usableitem) && CurrentRoom.Name.ToUpper() == "SOUTH CORRIDOR")
       {
         CurrentRoom.Locked = false;
         CurrentPlayer.Inventory.Remove(usableitem);
@@ -292,7 +302,7 @@ Strangley it looks like you. Your alarm clock wakes you, that felt too real. You
         CurrentRoom.Locked = false;
         CurrentPlayer.Inventory.Remove(usableitem);
         Console.WriteLine(usableitem.Description);
-        Thread.Sleep(3000);
+        // Thread.Sleep(3000);
         return;
       }
       //if the user doesnt have the item return "" saying so.

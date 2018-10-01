@@ -29,6 +29,10 @@ namespace CastleGrimtol.Project
       {
         return Exits[name];
       }
+      if (Exits.ContainsKey(name) && this.Name == "SOUTH CORRIDOR" && name == "east")
+      {
+        return Exits[name];
+      }
       if (Exits.ContainsKey(name) && this.Locked == true)
       {
         System.Console.WriteLine("");
