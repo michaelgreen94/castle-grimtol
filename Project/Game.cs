@@ -134,6 +134,7 @@ namespace CastleGrimtol.Project
     public void Look()
     {
       //gives user current description of the room they are in
+      System.Console.WriteLine("");
       Console.WriteLine($@"{CurrentRoom.Name}
 {CurrentRoom.Description}");
 
@@ -271,10 +272,12 @@ Strangley it looks like you. Your alarm clock wakes you, that felt too real. You
       if (lootableitem != null)
       {
         CurrentPlayer.Inventory.Add(lootableitem);
+        System.Console.WriteLine("");
         Console.WriteLine($"Youve added {lootableitem.Name} to your inventory");
         return;
       }
       //if the room doesnt have the item return "" saying so.
+      System.Console.WriteLine("");
       Console.WriteLine("That item doesnt exist");
       return;
     }
@@ -286,6 +289,7 @@ Strangley it looks like you. Your alarm clock wakes you, that felt too real. You
       //if the user has itemName in its inventory user can (use "itemName")
       if (usableitem == null)
       {
+        System.Console.WriteLine("");
         Console.WriteLine("You dont have that item in your inventory");
         return;
       }
@@ -293,6 +297,7 @@ Strangley it looks like you. Your alarm clock wakes you, that felt too real. You
       {
         CurrentRoom.Locked = false;
         CurrentPlayer.Inventory.Remove(usableitem);
+        System.Console.WriteLine("");
         Console.WriteLine(usableitem.Description);
         return;
       }
@@ -308,9 +313,11 @@ Strangley it looks like you. Your alarm clock wakes you, that felt too real. You
       //if the user doesnt have the item return "" saying so.
       else if (usableitem.Name == "torch")
       {
+        System.Console.WriteLine("");
         System.Console.WriteLine("You dont need a torch here!");
         return;
       }
+      System.Console.WriteLine("");
       Console.WriteLine("You dont have that item in your inventory");
       return;
     }
