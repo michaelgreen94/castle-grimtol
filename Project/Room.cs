@@ -39,6 +39,7 @@ namespace CastleGrimtol.Project
         Console.WriteLine("Its Locked!");
         return this;
       }
+      System.Console.WriteLine("");
       Console.WriteLine("I cant go that way!");
       return this;
     }
