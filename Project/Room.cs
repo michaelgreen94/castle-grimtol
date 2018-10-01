@@ -31,7 +31,8 @@ namespace CastleGrimtol.Project
       }
       if (Exits.ContainsKey(name) && this.Locked == true)
       {
-        Console.WriteLine("Its Locked");
+        System.Console.WriteLine("");
+        Console.WriteLine("Its Locked!");
         return this;
       }
       Console.WriteLine("I cant go that way!");
