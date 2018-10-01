@@ -266,6 +266,7 @@ Strangley it looks like you. Your alarm clock wakes you, that felt too real. You
       if (lootableitem != null)
       {
         CurrentPlayer.Inventory.Add(lootableitem);
+        Console.WriteLine($"Youve added {lootableitem.Name} to your inventory");
         return;
       }
       //if the room doesnt have the item return "" saying so.
